@@ -1,0 +1,94 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Figtree", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Bricolage Grotesque", "Figtree", ui-sans-serif, system-ui,
+    sans-serif;
+
+  /* ink + paper */
+  --color-ink: #1b2447;
+  --color-ink-soft: #454d72;
+  --color-ink-mute: #646b8c;
+  --color-paper: #f3f4f9;
+  --color-line: #e2e4ee;
+
+  /* highlighter: used only for "this is selected / active" */
+  --color-mark: #ffe45e;
+
+  /* categories: base for light surfaces, light for the dark hero */
+  --color-dsa: #6d28d9;
+  --color-dsa-light: #a78bfa;
+  --color-git: #c2410c;
+  --color-git-light: #fb923c;
+  --color-tech: #0369a1;
+  --color-tech-light: #38bdf8;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background: var(--color-mark);
+    color: var(--color-ink);
+  }
+}
+
+/* progress blocks on the dashboard fill in once, left to right */
+@keyframes cell-rise {
+  from {
+    opacity: 0;
+    transform: scaleY(0.15);
+  }
+  to {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+
+.cell-rise {
+  transform-origin: bottom;
+  animation: cell-rise 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(var(--i, 0) * 35ms);
+}
+
+/* "in progress" blocks are striped with the colour of their category */
+.cell-stripes {
+  background-image: repeating-linear-gradient(
+    135deg,
+    currentColor 0 3px,
+    transparent 3px 7px
+  );
+}
+
+/* add / edit question sheet */
+@keyframes modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(1.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.modal-in {
+  animation: modal-in 0.25s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cell-rise,
+  .modal-in {
+    animation: none;
+  }
+}
